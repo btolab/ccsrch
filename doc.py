@@ -1,19 +1,19 @@
 from logger import Logger
-from scan import Scanner
 import panscan
-import sys
 import zipfile
+import StringIO
+
 
 def plugin(filename, data=None):
     if data is not None:
         try:
-            filelikeObj = StringIO.StringIO(data)
+            filelike_obj = StringIO.StringIO(data)
         except Exception as e:
             Logger().log_error(e)
             return
 
         try:
-            file = zipfile.ZipFile(filelikeObj, "r")
+            file = zipfile.ZipFile(filelike_obj, "r")
         except zipfile.BadZipfile as e:
             Logger().log_error(e)
             return
@@ -30,7 +30,6 @@ def plugin(filename, data=None):
             Logger().log_error(e)
             return
 
-
     out = ""
 
     for c in f.read():
@@ -45,4 +44,3 @@ def plugin(filename, data=None):
     results = panscan(out)
     for r in results:
         Logger().log_pan(filename, r[1], "")
-    
