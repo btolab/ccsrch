@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from panscan import panscan, luhn
 import unittest
 
