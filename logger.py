@@ -1,6 +1,7 @@
 import datetime
 import sys
 
+
 class Logger:
     """
     The logging class. This class provides three different types of logs: PAN,
@@ -16,8 +17,8 @@ class Logger:
     ignore_log = None
     pan_log = None
 
-    def __init__(self, pan_log_filename = None, error_log_filename =
-                 None, ignore_log_filename = None):
+    def __init__(self, pan_log_filename=None, error_log_filename=None,
+                 ignore_log_filename=None):
         """
         The optional arguments should be given only the first time this
         constructor is called. If the name of an error log or ignore log are not
@@ -48,7 +49,7 @@ class Logger:
                 print "Cannot open ignore log for appending:", e
                 sys.exit(1)
 
-    def log_error(self, e, info = ""):
+    def log_error(self, e, info=""):
         """
         Used for logging exceptions. The argument e is ideally an exception but
         doesn't have to be. Info is a string and is optional, anything given
@@ -61,9 +62,9 @@ class Logger:
         if Logger.error_log:
             time = datetime.datetime.now().isoformat()
             Logger.error_log.write("%s Caught exception %s: %s %s\r\n" % (time,
-                    type(e), e, info))
+                                   type(e), e, info))
 
-    def log_ignore(self, path, info = ""):
+    def log_ignore(self, path, info=""):
         """
         For logging ignored files. Info argument as for log_error
 
@@ -76,7 +77,7 @@ class Logger:
             Logger.ignore_log.write("%s Ignored file %s %s\r\n" % (time, path,
                                                                    info))
 
-    def log_pan(self, path, pan, loc, info = ""):
+    def log_pan(self, path, pan, loc, info=""):
         """
         For logging PANs. Path should be the full location of the file,
         including paths within an archive. pan should be the snippet of text
@@ -90,4 +91,3 @@ class Logger:
         time = datetime.datetime.now().isoformat()
         Logger.pan_log.write("%s Found PAN: %s %s in %s %s\r\n" %
                              (time, pan, loc, path, info))
-
