@@ -1,13 +1,17 @@
 import xlrd  # Import the packages
 import panscan
-import logger
+from logger import Logger
 
 
 def plugin(filename, data=None):
-    if data is not None:
-        book = xlrd.open_workbook(filename, file_contents=data)
-    else:
-        book = xlrd.open_workbook(filename)  # Open an .xls file
+    try:
+        if data is not None:
+            book = xlrd.open_workbook(filename, file_contents=data)
+        else:
+            book = xlrd.open_workbook(filename)  # Open an .xls file
+    except xlrd.biffh.XLRDError as e:
+        Logger().log_error(e)
+        return
 
     # iterate over sheets
     for i in range(len(book.sheet_names())):
@@ -20,9 +24,9 @@ def plugin(filename, data=None):
 
                 # log each pan found
                 for p in pans:
-                    logger.Logger().log_pan(filename, p[1],
-                                            "in sheet %s, in cell %s:%d" %
-                                            (book.sheet_names()[i], inttochar(column), rownum))
+                    Logger().log_pan(filename, p[1],
+                                     "in sheet %s, in cell %s:%d" %
+                                     (book.sheet_names()[i], inttochar(column), rownum))
 
 
 def inttochar(integer):

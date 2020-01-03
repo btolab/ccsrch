@@ -21,7 +21,12 @@ def plugin(filename, data=None):
                 return
         """ For each file in the tarball, run it through the scanner """
         for file in tar.getmembers():
-            inner_file = tar.extractfile(file)
+            try:
+                inner_file = tar.extractfile(file)
+            except Exception as e:
+                Logger().log_error(e)
+                continue
+
             if not inner_file:
                 continue
             try:
